@@ -1,1 +1,1 @@
-web: r9kd $PORT
+web: r9kd

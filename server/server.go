@@ -1,8 +1,10 @@
 package server
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
+        "os"
 
 	"github.com/fsufitch/r9kd/db"
 	"github.com/gorilla/mux"
@@ -17,8 +19,13 @@ func createRouter() (router *mux.Router) {
 	return
 }
 
-// RunServer starts the r9kd server listening on the given port
-func RunServer(port string) (err error) {
+// RunServer starts the r9kd server listening on the port from the environment
+func RunServer() (err error) {
+	port := os.Getenv("PORT")
+        if port == "" {
+                err = errors.New("PORT environment variable not set")
+                return
+        }
 	serveStr := fmt.Sprintf(":%s", port)
 
 	err = db.Connect("", false).Error
