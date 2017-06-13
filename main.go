@@ -13,6 +13,6 @@ func main() {
 		log.Fatal("Port argument not specified")
 	}
 	port := os.Args[1]
-	fmt.Println("hello world")
+	fmt.Printf("Starting r9kd server on port %s\n", port)
 	log.Fatal(server.RunServer(port))
 }

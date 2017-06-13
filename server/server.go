@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/fsufitch/r9kd/db"
 	"github.com/gorilla/mux"
 )
 
@@ -19,5 +20,11 @@ func createRouter() (router *mux.Router) {
 // RunServer starts the r9kd server listening on the given port
 func RunServer(port string) error {
 	serveStr := fmt.Sprintf(":%s", port)
+
+	dbError := db.Connect("", false).Error
+	if dbError != nil {
+		return dbError
+	}
+
 	return http.ListenAndServe(serveStr, createRouter())
 }

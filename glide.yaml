@@ -3,3 +3,7 @@ import:
 - package: github.com/gorilla/mux
   version: ^1.4.0
 - package: github.com/lib/pq
+- package: github.com/pressly/goose
+  version: ^1.0.0
+  subpackages:
+  - cmd/goose
