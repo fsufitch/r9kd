@@ -8,9 +8,9 @@ import (
 )
 
 func main() {
-	port := os.Getenv("R9KD_PORT")
-	if port == "" {
-		log.Fatal("R9KD_PORT environment var missing")
+	if len(os.Args) < 2 {
+		log.Fatal("Port argument not specified")
 	}
+	port := os.Args[1]
 	log.Fatal(server.RunServer(port))
 }
