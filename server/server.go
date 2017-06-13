@@ -18,13 +18,19 @@ func createRouter() (router *mux.Router) {
 }
 
 // RunServer starts the r9kd server listening on the given port
-func RunServer(port string) error {
+func RunServer(port string) (err error) {
 	serveStr := fmt.Sprintf(":%s", port)
 
-	dbError := db.Connect("", false).Error
-	if dbError != nil {
-		return dbError
+	err = db.Connect("", false).Error
+	if err != nil {
+		return
 	}
 
+	err = db.Migrate(db.GetCachedConnection().Conn)
+	if err != nil {
+		return
+	}
+
+	fmt.Printf("Starting r9kd server on address: %s\n", serveStr)
 	return http.ListenAndServe(serveStr, createRouter())
 }

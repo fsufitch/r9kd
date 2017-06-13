@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"os"
 
-	_ "github.com/lib/pq" // Postgres driver
+	_ "github.com/fsufitch/r9kd/db/migrations" // Import migrations for goose to find
+	_ "github.com/lib/pq"                      // Postgres driver
+	"github.com/pressly/goose"
 )
 
 // ConnectionAttempt encapsulates an attempt to connect to Postgres, and either
@@ -64,4 +66,15 @@ func Connect(dburl string, force bool) ConnectionAttempt {
 
 	cachedConnection = newConn
 	return newConn
+}
+
+// Migrate attempts to run database migrations on the given DB connection
+func Migrate(db *sql.DB) (err error) {
+	fmt.Println("Running database migrations...")
+	err = goose.SetDialect("postgres")
+	if err != nil {
+		return
+	}
+	err = goose.Run("up", db, ".")
+	return
 }

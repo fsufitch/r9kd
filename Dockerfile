@@ -13,6 +13,5 @@ COPY . .
 
 RUN glide update --update-vendored
 RUN go get github.com/fsufitch/r9kd
-RUN go get github.com/fsufitch/r9kd/db/r9kd_migrate
 
-CMD r9kd_migrate postgres $DATABASE_URL up && r9kd $PORT
+CMD r9kd $PORT
