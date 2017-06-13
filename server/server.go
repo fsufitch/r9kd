@@ -17,7 +17,7 @@ func createRouter() (router *mux.Router) {
 }
 
 // RunServer starts the r9kd server listening on the given port
-func RunServer(port uint) error {
-	serveStr := fmt.Sprintf(":%d", port)
+func RunServer(port string) error {
+	serveStr := fmt.Sprintf(":%s", port)
 	return http.ListenAndServe(serveStr, createRouter())
 }
