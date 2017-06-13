@@ -17,7 +17,7 @@ func Up20170613144201(tx *sql.Tx) error {
 			id        INT PRIMARY KEY,
 			body      TEXT,
 			timestamp TIMESTAMP,
-			hash      BIGINT,
+			hash      BIGINT
 		);
 
 		CREATE INDEX messages_hash_idx
