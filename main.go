@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -12,5 +13,6 @@ func main() {
 		log.Fatal("Port argument not specified")
 	}
 	port := os.Args[1]
+	fmt.Println("hello world")
 	log.Fatal(server.RunServer(port))
 }

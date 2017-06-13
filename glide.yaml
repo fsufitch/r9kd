@@ -2,3 +2,4 @@ package: github.com/fsufitch/r9kd
 import:
 - package: github.com/gorilla/mux
   version: ^1.4.0
+- package: github.com/lib/pq
