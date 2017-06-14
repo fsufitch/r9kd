@@ -112,3 +112,15 @@ func UpdateAPIKey(key APIKey) (err error) {
   `, key.id, key.Key, key.Admin, key.ChannelModify, key.ChannelAddMessage)
 	return
 }
+
+// RequireAdminPermissions returns whether the given key has global admin rights
+func RequireAdminPermissions(key string) bool {
+	apiKey, err := GetAPIKeyByKey(key)
+	if err == sql.ErrNoRows {
+		return false
+	} else if err != nil {
+		fmt.Printf("Error checking permissions: %v\n", err)
+		return false
+	}
+	return apiKey.Admin
+}

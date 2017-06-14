@@ -8,15 +8,18 @@ import (
 
 	"github.com/fsufitch/r9kd/auth"
 	"github.com/fsufitch/r9kd/db"
+	"github.com/fsufitch/r9kd/server/channels"
 	"github.com/gorilla/mux"
 )
 
 func createRouter() (router *mux.Router) {
-	router = mux.NewRouter()
+	router = mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/status", http.StatusMovedPermanently)
 	})
 	router.Handle("/status", newStatusHandler())
+
+	channels.RegisterChannelRoutes(router)
 	return
 }
 
