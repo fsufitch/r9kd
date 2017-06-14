@@ -12,8 +12,8 @@ type APIKey struct {
 	id                int
 	Key               string
 	Admin             bool
-	ChannelModify     int
-	ChannelAddMessage int
+	ChannelModify     *int // using pointers since these are nullable
+	ChannelAddMessage *int
 }
 
 func getAPIKeysFromRows(rows *sql.Rows) (keys []APIKey, err error) {
@@ -46,7 +46,7 @@ func GetAPIKeyByID(id string) (key APIKey, err error) {
 	rows, err := conn.Query(`
     SELECT id, key, admin, channel_modify, channel_add_message
     FROM api_keys
-    WHERE id=?
+    WHERE id=$1
   `, id)
 	if err != nil {
 		return
@@ -72,7 +72,7 @@ func GetAPIKeyByKey(keyStr string) (key APIKey, err error) {
 	rows, err := conn.Query(`
     SELECT id, key, admin, channel_modify, channel_add_message
     FROM api_keys
-    WHERE key=?;
+    WHERE key=$1;
   `, keyStr)
 	if err != nil {
 		return
@@ -98,7 +98,7 @@ func AddAPIKey(key APIKey) (err error) {
 	_, err = conn.Exec(`
     INSERT INTO api_keys (key, admin, channel_modify, channel_add_message)
     VALUES ($1, $2, $3, $4);
-  `, key.Key, key.Admin, db.NilIfZero(key.ChannelModify), db.NilIfZero(key.ChannelAddMessage))
+  `, key.Key, key.Admin, key.ChannelModify, key.ChannelAddMessage)
 	return
 }
 
@@ -109,6 +109,6 @@ func UpdateAPIKey(key APIKey) (err error) {
     UPDATE api_keys
     SET (key, admin, channel_modify, channel_add_message) = ($2, $3, $4, $5)
     WHERE id=$1;
-  `, key.id, key.Key, key.Admin, db.NilIfZero(key.ChannelModify), db.NilIfZero(key.ChannelAddMessage))
+  `, key.id, key.Key, key.Admin, key.ChannelModify, key.ChannelAddMessage)
 	return
 }

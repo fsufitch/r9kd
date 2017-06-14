@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"database/sql"
 	"fmt"
 	"os"
 )
@@ -13,9 +14,12 @@ func BootstrapAdminFromEnvironment() error {
 		return nil
 	}
 
-	if _, err := GetAPIKeyByKey(bootstrapKey); err == nil {
-		fmt.Println("Admin bootstrap key already defined")
-		return nil
+	if _, err := GetAPIKeyByKey(bootstrapKey); err != sql.ErrNoRows {
+		if err == nil {
+			fmt.Println("Admin bootstrap key already defined")
+			return nil
+		}
+		return err
 	}
 
 	fmt.Println("Bootstrapping API key from environment...")
