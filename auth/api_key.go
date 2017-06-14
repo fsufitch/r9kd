@@ -57,8 +57,8 @@ func GetAPIKeyByID(id string) (key APIKey, err error) {
 	if err != nil {
 		return
 	}
-	if len(keys) != 1 {
-		err = fmt.Errorf("Unexpected number of keys retrieved for single ID: %d", len(keys))
+	if len(keys) == 0 {
+		err = sql.ErrNoRows
 		return
 	}
 
@@ -83,8 +83,8 @@ func GetAPIKeyByKey(keyStr string) (key APIKey, err error) {
 	if err != nil {
 		return
 	}
-	if len(keys) != 1 {
-		err = fmt.Errorf("Unexpected number of keys retrieved for single ID: %d", len(keys))
+	if len(keys) == 0 {
+		err = sql.ErrNoRows
 		return
 	}
 
