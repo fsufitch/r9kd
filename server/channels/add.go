@@ -14,5 +14,5 @@ func postChannel(w http.ResponseWriter, r *http.Request) {
 		auth.Write403Response(w, "create new channel")
 		return
 	}
-	w.Write([]byte("Create new channel success!"))
+	w.Write([]byte("Create new channel success!\n"))
 }
