@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+
+	"github.com/fsufitch/r9kd/server/util"
 )
 
 // GetAPIKeyFromAuthorizationHeader extracts an API key from a HTTP request
@@ -29,21 +31,23 @@ func GetAPIKeyFromAuthorizationHeader(r *http.Request) string {
 	return string(keyBytes)
 }
 
+type err40XResponse struct {
+	Success      bool   `json:"success"`
+	Code         int    `json:"code"`
+	ErrorMessage string `json:"errorMessage"`
+}
+
 // Write401Response does what it says on the can
 func Write401Response(w http.ResponseWriter) {
-	w.Header().Set("Content-Type", "text/plain")
 	w.Header().Set("WWW-Authenticate", "Bearer realm=\"API key authentication required\"")
-	w.WriteHeader(401)
-	w.Write([]byte("401 Unauthorized -- Please specify a valid API key via the Authorization header\n"))
+	util.WriteHTTPErrorResponse(w, 401, "Authorization header not specified, or contained invalid base64 Bearer key")
 }
 
 // Write403Response does what it says on the can
 func Write403Response(w http.ResponseWriter, deniedAction string) {
-	w.Header().Set("Content-Type", "text/plain")
-	w.WriteHeader(403)
 	if deniedAction == "" {
 		deniedAction = "<unspecified>"
 	}
-	message := fmt.Sprintf("403 Forbidden -- Your API key does not allow you to: %s\n", deniedAction)
-	w.Write([]byte(message))
+	message := fmt.Sprintf("Your API key does not allow you to: %s\n", deniedAction)
+	util.WriteHTTPErrorResponse(w, 403, message)
 }
