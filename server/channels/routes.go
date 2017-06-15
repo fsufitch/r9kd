@@ -7,4 +7,5 @@ func RegisterChannelRoutes(router *mux.Router) {
 	sub := router.PathPrefix("/channel").Subrouter()
 
 	sub.HandleFunc("", postChannel).Methods("POST")
+	sub.HandleFunc("/{string_id}", getChannel).Methods("GET")
 }
