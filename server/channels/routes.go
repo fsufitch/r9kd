@@ -8,4 +8,5 @@ func RegisterChannelRoutes(router *mux.Router) {
 
 	sub.HandleFunc("", postChannel).Methods("POST")
 	sub.HandleFunc("/{string_id}", getChannel).Methods("GET")
+	sub.HandleFunc("/{string_id}", deleteChannel).Methods("DELETE")
 }

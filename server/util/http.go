@@ -29,3 +29,14 @@ func WriteSerializableJSON(w http.ResponseWriter, code int, obj model.Serializab
 	w.WriteHeader(code)
 	w.Write(data)
 }
+
+type httpBasicSuccessResponse struct {
+	Success bool `json:"success"`
+}
+
+func (r httpBasicSuccessResponse) Serialize() ([]byte, error) {
+	return json.Marshal(r)
+}
+
+//HTTPBasicSuccessResponse is a shortcut for printing a simple {"success": true} JSON response
+var HTTPBasicSuccessResponse = httpBasicSuccessResponse{true}

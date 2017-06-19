@@ -27,3 +27,16 @@ func GetChannelByStringID(stringID string) (channel model.MessageChannel, err er
 	err = row.Scan(&channel.ID, &channel.Name, &channel.StringID)
 	return
 }
+
+// DeleteChannel does what it says on the can
+func DeleteChannel(id int) (err error) {
+	if GetCachedConnection().Error != nil {
+		err = GetCachedConnection().Error
+		return
+	}
+	conn := GetCachedConnection().Conn
+	_, err = conn.Exec(`
+    DELETE FROM channels
+    WHERE id=$1`, id)
+	return
+}
