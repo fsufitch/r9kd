@@ -1,6 +1,10 @@
 package db
 
-import "github.com/fsufitch/r9kd/model"
+import (
+	"database/sql"
+
+	"github.com/fsufitch/r9kd/model"
+)
 
 // AddSender adds a new sender to the database
 func AddSender(stringID string, channelStringID string) (err error) {
@@ -28,7 +32,7 @@ func GetSender(senderStringID string, channelStringID string) (sender model.Send
 	row := conn.QueryRow(`
     SELECT s.id, s.string_id, s.banned, s.ban_expire_time, s.last_ban_length, c.string_id
     FROM senders AS s
-    INNER JOIN channels AS c ON s.channel=c.id
+    INNER JOIN channels AS c ON s.channel=c.string_id
     WHERE s.string_id=$1 AND c.string_id=$2`,
 		senderStringID, channelStringID,
 	)
@@ -41,6 +45,19 @@ func GetSender(senderStringID string, channelStringID string) (sender model.Send
 		&sender.LastBanLength,
 		&sender.ChannelStringID,
 	)
+	return
+}
+
+// GetOrCreateSender gets or creates a sender
+func GetOrCreateSender(senderStringID string, channelStringID string) (sender model.Sender, err error) {
+	sender, err = GetSender(senderStringID, channelStringID)
+	if err == sql.ErrNoRows {
+		err = AddSender(senderStringID, channelStringID)
+		if err != nil {
+			return
+		}
+		sender, err = GetSender(senderStringID, channelStringID)
+	}
 	return
 }
 

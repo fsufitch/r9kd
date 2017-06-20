@@ -37,3 +37,8 @@ func (s Sender) Serialize() ([]byte, error) {
 
 	return json.Marshal(actual)
 }
+
+// UpdateBanned updates the data in sender.Banned
+func (s *Sender) UpdateBanned() {
+	s.Banned = s.BanExpiration.After(time.Now())
+}

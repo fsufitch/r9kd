@@ -19,15 +19,13 @@ func Up20170619164230(tx *sql.Tx) error {
 			banned					BOOLEAN,
 			ban_expire_time TIMESTAMP,
 			last_ban_length INT,
-			channel 				INT REFERENCES channels (id) ON DELETE CASCADE
+			channel 				VARCHAR(64) REFERENCES channels (string_id) ON DELETE CASCADE,
 			UNIQUE 					(string_id, channel)
 		);
 
 		CREATE SEQUENCE senders_id_seq;
 		ALTER TABLE senders ALTER id SET DEFAULT NEXTVAL('senders_id_seq');
-
-		ALTER TABLE messages ADD COLUMN channel INT REFERENCES channels (id) ON DELETE CASCADE;
-		ALTER TABLE messages ADD COLUMN sender INT REFERENCES senders (id) ON DELETE CASCADE;
+		ALTER TABLE messages ADD COLUMN sender VARCHAR(64) REFERENCES senders (string_id) ON DELETE CASCADE;
 	`)
 	return err
 }
@@ -36,7 +34,6 @@ func Up20170619164230(tx *sql.Tx) error {
 func Down20170619164230(tx *sql.Tx) error {
 	_, err := tx.Exec(`
 		ALTER TABLE messages DROP COLUMN sender;
-		ALTER TABLE messages DROP COLUMN channel;
 
 		DROP TABLE senders;
 		DROP SEQUENCE senders_id_seq;

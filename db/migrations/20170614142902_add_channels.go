@@ -16,11 +16,11 @@ func Up20170614142902(tx *sql.Tx) error {
 		CREATE TABLE channels (
 			id        INT PRIMARY KEY,
 			name      VARCHAR(128),
-			string_id VARCHAR(32) UNIQUE
+			string_id VARCHAR(64) UNIQUE
 		);
 
 		ALTER TABLE messages
-			ADD channel_id	INT REFERENCES channels (id) ON DELETE CASCADE;
+			ADD channel	VARCHAR(64) REFERENCES channels (string_id) ON DELETE CASCADE;
 	`)
 	return err
 }

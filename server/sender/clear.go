@@ -18,6 +18,8 @@ func clearSenderBans(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// TODO: Add channel access control
+
 	sender, err := db.GetSender(stringID, channelStringID)
 
 	if err == sql.ErrNoRows {

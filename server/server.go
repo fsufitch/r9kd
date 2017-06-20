@@ -9,6 +9,8 @@ import (
 	"github.com/fsufitch/r9kd/auth"
 	"github.com/fsufitch/r9kd/db"
 	"github.com/fsufitch/r9kd/server/channels"
+	"github.com/fsufitch/r9kd/server/message"
+	"github.com/fsufitch/r9kd/server/sender"
 	"github.com/gorilla/mux"
 )
 
@@ -20,6 +22,8 @@ func createRouter() (router *mux.Router) {
 	router.Handle("/status", newStatusHandler())
 
 	channels.RegisterChannelRoutes(router)
+	sender.RegisterSenderRoutes(router)
+	message.RegisterMessageRoutes(router)
 	return
 }
 
