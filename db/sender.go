@@ -45,6 +45,11 @@ func GetSender(senderStringID string, channelStringID string) (sender model.Send
 		&sender.LastBanLength,
 		&sender.ChannelStringID,
 	)
+
+	if err == nil {
+		sender.UpdateBanned()
+	}
+
 	return
 }
 

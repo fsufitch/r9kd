@@ -1,0 +1,206 @@
+                                                           Table "public.api_keys"
+       Column        |          Type          |                       Modifiers                       | Storage  | Stats target | Description 
+---------------------+------------------------+-------------------------------------------------------+----------+--------------+-------------
+ id                  | integer                | not null default nextval('api_keys_id_seq'::regclass) | plain    |              | 
+ key                 | character varying(128) | not null                                              | extended |              | 
+ admin               | boolean                | default false                                         | plain    |              | 
+ channel_modify      | integer                |                                                       | plain    |              | 
+ channel_add_message | integer                |                                                       | plain    |              | 
+Indexes:
+    "api_keys_pkey" PRIMARY KEY, btree (id)
+    "api_keys_key_key" UNIQUE CONSTRAINT, btree (key)
+Foreign-key constraints:
+    "api_keys_channel_add_message_fkey" FOREIGN KEY (channel_add_message) REFERENCES channels(id) ON DELETE CASCADE
+    "api_keys_channel_modify_fkey" FOREIGN KEY (channel_modify) REFERENCES channels(id) ON DELETE CASCADE
+
+            Sequence "public.api_keys_id_seq"
+    Column     |  Type   |        Value        | Storage 
+---------------+---------+---------------------+---------
+ sequence_name | name    | api_keys_id_seq     | plain
+ last_value    | bigint  | 1                   | plain
+ start_value   | bigint  | 1                   | plain
+ increment_by  | bigint  | 1                   | plain
+ max_value     | bigint  | 9223372036854775807 | plain
+ min_value     | bigint  | 1                   | plain
+ cache_value   | bigint  | 1                   | plain
+ log_cnt       | bigint  | 32                  | plain
+ is_cycled     | boolean | f                   | plain
+ is_called     | boolean | t                   | plain
+
+             Index "public.api_keys_key_key"
+ Column |          Type          | Definition | Storage  
+--------+------------------------+------------+----------
+ key    | character varying(128) | key        | extended
+unique, btree, for table "public.api_keys"
+
+      Index "public.api_keys_pkey"
+ Column |  Type   | Definition | Storage 
+--------+---------+------------+---------
+ id     | integer | id         | plain
+primary key, btree, for table "public.api_keys"
+
+            Sequence "public.channel_id_seq"
+    Column     |  Type   |        Value        | Storage 
+---------------+---------+---------------------+---------
+ sequence_name | name    | channel_id_seq      | plain
+ last_value    | bigint  | 1                   | plain
+ start_value   | bigint  | 1                   | plain
+ increment_by  | bigint  | 1                   | plain
+ max_value     | bigint  | 9223372036854775807 | plain
+ min_value     | bigint  | 1                   | plain
+ cache_value   | bigint  | 1                   | plain
+ log_cnt       | bigint  | 32                  | plain
+ is_cycled     | boolean | f                   | plain
+ is_called     | boolean | t                   | plain
+
+                                                      Table "public.channels"
+  Column   |          Type          |                      Modifiers                       | Storage  | Stats target | Description 
+-----------+------------------------+------------------------------------------------------+----------+--------------+-------------
+ id        | integer                | not null default nextval('channel_id_seq'::regclass) | plain    |              | 
+ name      | character varying(128) | not null                                             | extended |              | 
+ string_id | character varying(64)  | not null                                             | extended |              | 
+Indexes:
+    "channels_pkey" PRIMARY KEY, btree (id)
+    "channels_string_id_key" UNIQUE CONSTRAINT, btree (string_id)
+Referenced by:
+    TABLE "api_keys" CONSTRAINT "api_keys_channel_add_message_fkey" FOREIGN KEY (channel_add_message) REFERENCES channels(id) ON DELETE CASCADE
+    TABLE "api_keys" CONSTRAINT "api_keys_channel_modify_fkey" FOREIGN KEY (channel_modify) REFERENCES channels(id) ON DELETE CASCADE
+    TABLE "messages" CONSTRAINT "messages_channel_fkey" FOREIGN KEY (channel) REFERENCES channels(string_id) ON DELETE CASCADE
+    TABLE "senders" CONSTRAINT "senders_channel_fkey" FOREIGN KEY (channel) REFERENCES channels(string_id) ON DELETE CASCADE
+
+      Index "public.channels_pkey"
+ Column |  Type   | Definition | Storage 
+--------+---------+------------+---------
+ id     | integer | id         | plain
+primary key, btree, for table "public.channels"
+
+           Index "public.channels_string_id_key"
+  Column   |         Type          | Definition | Storage  
+-----------+-----------------------+------------+----------
+ string_id | character varying(64) | string_id  | extended
+unique, btree, for table "public.channels"
+
+                                                         Table "public.goose_db_version"
+   Column   |            Type             |                           Modifiers                           | Storage | Stats target | Description 
+------------+-----------------------------+---------------------------------------------------------------+---------+--------------+-------------
+ id         | integer                     | not null default nextval('goose_db_version_id_seq'::regclass) | plain   |              | 
+ version_id | bigint                      | not null                                                      | plain   |              | 
+ is_applied | boolean                     | not null                                                      | plain   |              | 
+ tstamp     | timestamp without time zone | default now()                                                 | plain   |              | 
+Indexes:
+    "goose_db_version_pkey" PRIMARY KEY, btree (id)
+
+          Sequence "public.goose_db_version_id_seq"
+    Column     |  Type   |          Value          | Storage 
+---------------+---------+-------------------------+---------
+ sequence_name | name    | goose_db_version_id_seq | plain
+ last_value    | bigint  | 9                       | plain
+ start_value   | bigint  | 1                       | plain
+ increment_by  | bigint  | 1                       | plain
+ max_value     | bigint  | 9223372036854775807     | plain
+ min_value     | bigint  | 1                       | plain
+ cache_value   | bigint  | 1                       | plain
+ log_cnt       | bigint  | 32                      | plain
+ is_cycled     | boolean | f                       | plain
+ is_called     | boolean | t                       | plain
+Owned by: public.goose_db_version.id
+
+  Index "public.goose_db_version_pkey"
+ Column |  Type   | Definition | Storage 
+--------+---------+------------+---------
+ id     | integer | id         | plain
+primary key, btree, for table "public.goose_db_version"
+
+            Sequence "public.message_id_seq"
+    Column     |  Type   |        Value        | Storage 
+---------------+---------+---------------------+---------
+ sequence_name | name    | message_id_seq      | plain
+ last_value    | bigint  | 8                   | plain
+ start_value   | bigint  | 1                   | plain
+ increment_by  | bigint  | 1                   | plain
+ max_value     | bigint  | 9223372036854775807 | plain
+ min_value     | bigint  | 1                   | plain
+ cache_value   | bigint  | 1                   | plain
+ log_cnt       | bigint  | 25                  | plain
+ is_cycled     | boolean | f                   | plain
+ is_called     | boolean | t                   | plain
+
+                                                        Table "public.messages"
+  Column   |            Type             |                      Modifiers                       | Storage  | Stats target | Description 
+-----------+-----------------------------+------------------------------------------------------+----------+--------------+-------------
+ id        | integer                     | not null default nextval('message_id_seq'::regclass) | plain    |              | 
+ body      | text                        | not null                                             | extended |              | 
+ timestamp | timestamp without time zone | not null                                             | plain    |              | 
+ hash      | bigint                      | default 0                                            | plain    |              | 
+ channel   | character varying(64)       |                                                      | extended |              | 
+ sender    | character varying(64)       |                                                      | extended |              | 
+Indexes:
+    "messages_pkey" PRIMARY KEY, btree (id)
+    "messages_hash_idx" btree (hash)
+Foreign-key constraints:
+    "messages_channel_fkey" FOREIGN KEY (channel) REFERENCES channels(string_id) ON DELETE CASCADE
+    "messages_sender_fkey" FOREIGN KEY (sender) REFERENCES senders(string_id) ON DELETE CASCADE
+
+    Index "public.messages_hash_idx"
+ Column |  Type  | Definition | Storage 
+--------+--------+------------+---------
+ hash   | bigint | hash       | plain
+btree, for table "public.messages"
+
+      Index "public.messages_pkey"
+ Column |  Type   | Definition | Storage 
+--------+---------+------------+---------
+ id     | integer | id         | plain
+primary key, btree, for table "public.messages"
+
+                                                            Table "public.senders"
+     Column      |            Type             |                      Modifiers                       | Storage  | Stats target | Description 
+-----------------+-----------------------------+------------------------------------------------------+----------+--------------+-------------
+ id              | integer                     | not null default nextval('senders_id_seq'::regclass) | plain    |              | 
+ string_id       | character varying(64)       | not null                                             | extended |              | 
+ banned          | boolean                     | default false                                        | plain    |              | 
+ ban_expire_time | timestamp without time zone | default to_timestamp((0)::double precision)          | plain    |              | 
+ last_ban_length | integer                     | default 0                                            | plain    |              | 
+ channel         | character varying(64)       |                                                      | extended |              | 
+Indexes:
+    "senders_pkey" PRIMARY KEY, btree (id)
+    "senders_string_id_channel_key" UNIQUE CONSTRAINT, btree (string_id, channel)
+    "senders_string_id_key" UNIQUE CONSTRAINT, btree (string_id)
+Foreign-key constraints:
+    "senders_channel_fkey" FOREIGN KEY (channel) REFERENCES channels(string_id) ON DELETE CASCADE
+Referenced by:
+    TABLE "messages" CONSTRAINT "messages_sender_fkey" FOREIGN KEY (sender) REFERENCES senders(string_id) ON DELETE CASCADE
+
+            Sequence "public.senders_id_seq"
+    Column     |  Type   |        Value        | Storage 
+---------------+---------+---------------------+---------
+ sequence_name | name    | senders_id_seq      | plain
+ last_value    | bigint  | 1                   | plain
+ start_value   | bigint  | 1                   | plain
+ increment_by  | bigint  | 1                   | plain
+ max_value     | bigint  | 9223372036854775807 | plain
+ min_value     | bigint  | 1                   | plain
+ cache_value   | bigint  | 1                   | plain
+ log_cnt       | bigint  | 32                  | plain
+ is_cycled     | boolean | f                   | plain
+ is_called     | boolean | t                   | plain
+
+       Index "public.senders_pkey"
+ Column |  Type   | Definition | Storage 
+--------+---------+------------+---------
+ id     | integer | id         | plain
+primary key, btree, for table "public.senders"
+
+       Index "public.senders_string_id_channel_key"
+  Column   |         Type          | Definition | Storage  
+-----------+-----------------------+------------+----------
+ string_id | character varying(64) | string_id  | extended
+ channel   | character varying(64) | channel    | extended
+unique, btree, for table "public.senders"
+
+           Index "public.senders_string_id_key"
+  Column   |         Type          | Definition | Storage  
+-----------+-----------------------+------------+----------
+ string_id | character varying(64) | string_id  | extended
+unique, btree, for table "public.senders"
+
