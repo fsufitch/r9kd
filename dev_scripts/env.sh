@@ -11,4 +11,6 @@ export R9KD_IMAGE_NAME="r9kd"
 export R9KD_CONTAINER_NAME="r9kd"
 export R9KD_PORT="8088"
 
+export R9KD_TEST_CONTAINER_NAME="r9kd-test"
+
 export ADMIN_KEY="__ADMIN_KEY_NOT_FOR_PRODUCTION__"

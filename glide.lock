@@ -1,8 +1,6 @@
-hash: e9d8fb4ca346ead96a0f5fe4b7a92ecc45bf05c7fddf61a4c0404dc0ef17e08b
-updated: 2017-06-13T14:34:48.034029373-04:00
+hash: 9ab2fc325a009da4b81356e0bdee164b5cc78ecfbbc3f2690b19392cbce5909e
+updated: 2017-06-30T14:03:18.721034926-04:00
 imports:
-- name: github.com/go-sql-driver/mysql
-  version: a825be04c652d01442384e9dcdf2cdc3f1eda67f
 - name: github.com/gorilla/context
   version: 08b5f424b9271eedf6f9f0ce86cb9396ed337a42
 - name: github.com/gorilla/mux
@@ -11,20 +9,20 @@ imports:
   version: 8837942c3e09574accbc5f150e2c5e057189cace
   subpackages:
   - oid
-- name: github.com/mattn/go-sqlite3
-  version: 83772a7051f5e30d8e59746a9e43dfa706b72f3b
 - name: github.com/pressly/goose
   version: f9980cee258976cd89b5edeaee57983104b9180f
   subpackages:
   - cmd/goose
-- name: github.com/ziutek/mymysql
-  version: 1d19cbf98d83564cc561192ae7d7183d795f7ac7
+- name: github.com/stretchr/testify
+  version: 69483b4bd14f5845b5a1e55bca19e954e827f1d0
   subpackages:
-  - godrv
-  - mysql
-  - native
-- name: golang.org/x/net
-  version: dfe83d419c9403b40b19d08cdba2afec27b002f7
+  - assert
+testImports:
+- name: github.com/davecgh/go-spew
+  version: 6d212800a42e8ab5c146b8ace3490ee17e5225f9
   subpackages:
-  - context
-testImports: []
+  - spew
+- name: github.com/pmezard/go-difflib
+  version: d8ed2627bdf02c080bf22230dbb337003b7aba2d
+  subpackages:
+  - difflib
