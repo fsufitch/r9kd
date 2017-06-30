@@ -13,7 +13,7 @@ echo Running tests on $R9KD_IMAGE_NAME...
 docker run -it --rm \
   --name $R9KD_TEST_CONTAINER_NAME \
   $R9KD_IMAGE_NAME \
-    go test \
+    go test -cover \
     github.com/fsufitch/r9kd \
     github.com/fsufitch/r9kd/auth \
     github.com/fsufitch/r9kd/db \

@@ -19,7 +19,6 @@ ENV BOOTSTRAP_ADMIN_KEY $ADMIN_KEY
 EXPOSE $R9KD_PORT
 
 # Get dependencies and install
-RUN glide update --update-vendored
 RUN go get github.com/fsufitch/r9kd
 
 # Entry point
